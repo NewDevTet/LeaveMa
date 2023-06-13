@@ -19,8 +19,10 @@ namespace LeaveMa.Data.Configuration
             builder.Property(e => e.Code).IsRequired();
             builder.HasMany<Holiday>(h => h.Holidays)
             .WithOne(s => s.Country)
-            .HasForeignKey(s => s.Code)
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasForeignKey(s => s.CountryCode);
+            builder.HasMany<Employee>(h => h.Employees)
+            .WithOne(s => s.Country)
+            .HasForeignKey(s => s.CountryCode);
         }
     }
 }
