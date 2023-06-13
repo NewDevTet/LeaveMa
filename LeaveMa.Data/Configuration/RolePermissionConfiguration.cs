@@ -16,12 +16,12 @@ namespace LeaveMa.Data.Configuration
             builder.HasKey(rp => new { rp.RoleCode, rp.PermissionCode});
 
             builder.HasOne<Role>(rp => rp.Role)
-                    .WithMany(r => r.RolePermisssions)
-                    .HasForeignKey(rp => rp.RoleId);
+                    .WithMany(r => r.RolePermissions)
+                    .HasForeignKey(rp => rp.RoleCode);
 
             builder.HasOne<Permission>(rp => rp.Permission)
-                    .WithMany(p => p.RolePermisssions)
-                    .HasForeignKey(rp => rp.PermissionId);
+                    .WithMany(p => p.RolePermissions)
+                    .HasForeignKey(rp => rp.PermissionCode);
         }
     }
 }
