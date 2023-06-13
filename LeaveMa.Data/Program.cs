@@ -1,7 +1,2 @@
-﻿using Microsoft.Extensions.Hosting;
-
-using IHost host = Host.CreateDefaultBuilder(args).Build();
-
-// Application code should start here.
-
-await host.RunAsync();
+﻿// See https://aka.ms/new-console-template for more information
+Console.WriteLine("Hello, World!");

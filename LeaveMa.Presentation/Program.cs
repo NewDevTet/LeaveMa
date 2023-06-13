@@ -1,6 +1,11 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using LeaveMa.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
-app.MapGet("/", () => "Hello World!");
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<LeaveMaDbContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
+                , optionsBuilder =>
+                optionsBuilder.MigrationsAssembly("LeaveMa.Data")));
+var app = builder.Build();
 
 app.Run();
