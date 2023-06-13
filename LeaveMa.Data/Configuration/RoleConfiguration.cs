@@ -13,6 +13,8 @@ namespace LeaveMa.Data.Configuration
         public override void Configure(EntityTypeBuilder<Role> builder)
         {
             base.Configure(builder);
+            builder.HasKey(r => r.Code);
+            builder.Property(r => r.Code).IsRequired();
         }
     }
 }
