@@ -19,7 +19,13 @@ namespace LeaveMa.Data.Configuration
             builder.Property(e => e.Id).IsRequired().ValueGeneratedOnAdd();
             builder.HasOne<Country>(s => s.Country)
                     .WithMany(g => g.Employees)
-                    .HasForeignKey(s => s.Country.Code);
+                    .HasForeignKey(s => s.CountryCode);
+            builder.HasOne<Role>(s => s.Role)
+                    .WithMany(g => g.Employees)
+                    .HasForeignKey(s => s.RoleCode);
+            builder.HasMany<Leave>(h => h.Leaves)
+            .WithOne(s => s.Employee)
+            .HasForeignKey(s => s.EmployeeId);
         }
     }
 }

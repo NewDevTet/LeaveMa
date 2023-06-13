@@ -13,6 +13,11 @@ namespace LeaveMa.Data.Configuration
         public override void Configure(EntityTypeBuilder<Status> builder)
         {
             base.Configure(builder);
+            builder.HasKey(e => e.Code);
+            builder.Property(e => e.Code).IsRequired();
+            builder.HasMany<Leave>(h => h.Leaves)
+            .WithOne(s => s.Status)
+            .HasForeignKey(s => s.StatusCode);
         }
     }
 }
