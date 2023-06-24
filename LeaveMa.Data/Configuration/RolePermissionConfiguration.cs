@@ -1,4 +1,5 @@
 ﻿using LeaveMa.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,14 @@ namespace LeaveMa.Data.Configuration
         public override void Configure(EntityTypeBuilder<RolePermission> builder)
         {
             base.Configure(builder);
-            builder.HasKey(rp => new { rp.RoleCode, rp.PermissionCode});
+            builder.ToTable("RolePermission");
+            builder.HasKey(rp => new { rp.RoleId, rp.PermissionCode});
 
             builder.HasOne<Role>(rp => rp.Role)
                     .WithMany(r => r.RolePermissions)
-                    .HasForeignKey(rp => rp.RoleCode);
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .HasForeignKey(rp => rp.RoleId);
+                    
 
             builder.HasOne<Permission>(rp => rp.Permission)
                     .WithMany(p => p.RolePermissions)

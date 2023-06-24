@@ -1,4 +1,5 @@
 ﻿using LeaveMa.Data.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace LeaveMa.Data.Context
 {
-    public  class LeaveMaDbContext : DbContext
+    public  class LeaveMaDbContext : IdentityDbContext
     {
         public LeaveMaDbContext(DbContextOptions<LeaveMaDbContext> options) : base(options)
         {
@@ -19,6 +20,7 @@ namespace LeaveMa.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 

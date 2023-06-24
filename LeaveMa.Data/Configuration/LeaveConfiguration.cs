@@ -1,4 +1,5 @@
 ﻿using LeaveMa.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace LeaveMa.Data.Configuration
         public override void Configure(EntityTypeBuilder<Leave> builder)
         {
             base.Configure(builder);
+            builder.ToTable("Leave");
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Id).IsRequired();
             builder.HasOne<Employee>(s => s.Employee)

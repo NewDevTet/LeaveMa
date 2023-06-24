@@ -10,7 +10,7 @@ namespace LeaveMa.Data.Entities
     {
         public int PermissionCode { get; set; }
         public Permission Permission { get; set; }
-        public int RoleCode { get; set; }
+        public string RoleId { get; set; }
         public Role Role { get; set; }
     }
 }

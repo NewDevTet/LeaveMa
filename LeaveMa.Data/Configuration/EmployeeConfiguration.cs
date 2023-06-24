@@ -10,19 +10,20 @@ using System.Threading.Tasks;
 
 namespace LeaveMa.Data.Configuration
 {
-    public class EmployeeConfiguration : BaseEntityConfiguration<Employee>
+    public class EmployeeConfiguration : BaseEntityIdentityConfiguration<Employee>
     {
         public override void Configure(EntityTypeBuilder<Employee> builder)
         {
             base.Configure(builder);
-            builder.HasKey(e => e.Id);
+            builder.ToTable("Employee");
             builder.Property(e => e.Id).IsRequired().ValueGeneratedOnAdd();
             builder.HasOne<Country>(s => s.Country)
                     .WithMany(g => g.Employees)
                     .HasForeignKey(s => s.CountryCode);
             builder.HasOne<Role>(s => s.Role)
                     .WithMany(g => g.Employees)
-                    .HasForeignKey(s => s.RoleCode);
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .HasForeignKey(s => s.RoleId);
             builder.HasMany<Leave>(h => h.Leaves)
             .WithOne(s => s.Employee)
             .HasForeignKey(s => s.EmployeeId);

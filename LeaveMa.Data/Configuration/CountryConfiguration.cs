@@ -15,6 +15,7 @@ namespace LeaveMa.Data.Configuration
         public override void Configure(EntityTypeBuilder<Country> builder)
         {
             base.Configure(builder);
+            builder.ToTable("Country");
             builder.HasKey(e => e.Code);
             builder.Property(e => e.Code).IsRequired();
             builder.HasMany<Holiday>(h => h.Holidays)

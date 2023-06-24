@@ -14,6 +14,7 @@ namespace LeaveMa.Data.Configuration
         public override void Configure(EntityTypeBuilder<EmployeeProject> builder)
         {
             base.Configure(builder);
+            builder.ToTable("EmployeeProject");
             builder.HasKey(sc => new { sc.Id, sc.Code });
             builder.Property(e => e.Code).IsRequired();
             builder.Property(e => e.Id).IsRequired();
