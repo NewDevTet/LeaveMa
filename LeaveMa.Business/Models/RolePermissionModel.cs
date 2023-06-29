@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace LeaveMa.Data.Entities
 {
-    public class Email : BaseEntity
+    public class RolePermissionModel
     {
-        public string? Code { get; set; }
-        public string? Value { get; set; }
+        public PermissionModel Permission { get; set; }
+        public RoleModel Role { get; set; }
     }
 }

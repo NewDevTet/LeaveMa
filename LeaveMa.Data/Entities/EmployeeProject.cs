@@ -10,11 +10,11 @@ namespace LeaveMa.Data.Entities
     {
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public bool IsCurrent { get; set; }
-        public string Id { get; set; }
-        public Employee Employee { get; set; }
-        public string Code { get; set; }
-        public Project Project { get; set; }
+        public bool? IsCurrent { get; set; }
+        public string? Id { get; set; }
+        public Employee? Employee { get; set; }
+        public string? Code { get; set; }
+        public Project? Project { get; set; }
 
     }
 }

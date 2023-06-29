@@ -7,6 +7,9 @@ using LeaveMa.Data.Entities;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using LeaveMa.Presentation.EmailSender;
+using LeaveMa.Business.DependencyInjection;
+using LeaveMa.Data.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<LeaveMaDbContext>(
@@ -14,18 +17,20 @@ builder.Services.AddDbContext<LeaveMaDbContext>(
                 , optionsBuilder =>
                 optionsBuilder.MigrationsAssembly("LeaveMa.Data")));
 
+builder.Services.AddApplication();
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<Employee, IdentityRole>()
     .AddEntityFrameworkStores<LeaveMaDbContext>()
-     .AddDefaultUI()
     .AddDefaultTokenProviders();
-   
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.TryAddTransient<IEmailSender, EmailSender>();
 
 
 

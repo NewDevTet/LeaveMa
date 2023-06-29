@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace LeaveMa.Data.Entities
 {
-    public class Project : BaseEntity
+    public class StatusModel
     {
         public string Code { get; set; }
-        public string? Name { get; set; }
-        public string? Description { get; set; }
-        public ICollection<EmployeeProject> EmployeeProject { get; set; }
-
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public ICollection<LeaveModel> Leaves { get; set; }
     }
 }

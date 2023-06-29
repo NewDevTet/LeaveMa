@@ -9,8 +9,8 @@ namespace LeaveMa.Data.Entities
     public class RolePermission : BaseEntity
     {
         public int PermissionCode { get; set; }
-        public Permission Permission { get; set; }
-        public string RoleId { get; set; }
-        public Role Role { get; set; }
+        public Permission? Permission { get; set; }
+        public string? RoleId { get; set; }
+        public Role? Role { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace LeaveMa.Data.Entities
     public class Country : BaseEntity
     {
         public string Code { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public ICollection<Holiday> Holidays { get; set; }
         public ICollection<Employee> Employees { get; set; }
 
