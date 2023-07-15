@@ -1,8 +1,11 @@
 ﻿@using LeaveMa.Business.Models;
+@using LeaveMa
 @model EmployeeModel
 @{
-    LeaveModel leaveModel = null;
+    var teamLeaves = (IEnumerable<EmployeeModel>)ViewData["TeamLeaves"];
 }
+
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
@@ -122,15 +125,69 @@
                 };
             }
         });
-        var arr = []; //javascript array
-        $.each(@Model.Leaves, function (index, value) {
+
+        var _myNames = JSON.parse('@Html.Raw(Json.Serialize(Model.Leaves))');
+        var _holidays = JSON.parse('@Html.Raw(Json.Serialize(Model.Country.Holidays))');
+        var teamLeaves = JSON.parse('@Html.Raw(Json.Serialize(teamLeaves))');
+
+        var firstName = JSON.parse('@Html.Raw(Json.Serialize(Model.FirstName))');
+        var lastName = JSON.parse('@Html.Raw(Json.Serialize(Model.LastName))');
+
+        
+
+
+        var arr = [];
+        $.each(_myNames, function (index, item) {
+            if (item.statusCode != "REJECTED")
+            {
+                var endDate = new Date(item.endDate)
+                var endDateValue = endDate.setDate(endDate.getDate() + 1)
+                arr.push({
+                    title: firstName + ' ' + lastName,
+                    start: new Date(item.startDate),
+                    end: endDateValue,
+                    backgroundColor: '#f56954', //yellow
+                    borderColor: '#f56954',
+                    allDay: true
+                });
+            }
+            
+        });
+
+        $.each(_holidays, function (index, item) {
+            var endDate = new Date(item.endDate)
+            var endDateValue = endDate.setDate(endDate.getDate() + 1)
             arr.push({
-                title: 'Long Event',
-                start: new Date(y, m, d - 5),
-                end: new Date(y, m, d - 2),
-                backgroundColor: '#f39c12', //yellow
-                borderColor: '#f39c12'
+                title: item.name,
+                start: new Date(item.startDate),
+                end: endDateValue,
+                backgroundColor: '#17a2b8', //yellow
+                borderColor: '#17a2b8',
+                allDay: true
             });
+        });
+
+        console.log(teamLeaves)
+        $.each(teamLeaves, function (index, item) {
+            console.log("1")
+            console.log(item.leaves)
+            $.each(item.leaves, function (inde, subItem) {
+                console.log("2")
+                if (subItem.statusCode == "APPROVED"){
+                    var endDate = new Date(subItem.endDate)
+                    var endDateValue = endDate.setDate(endDate.getDate() + 1)
+                    arr.push({
+                        title: item.firstName + ' ' + item.lastName,
+                        start: new Date(subItem.startDate),
+                        end: endDateValue,
+                        backgroundColor: '#268fff', //yellow
+                        borderColor: '#268fff',
+                        allDay: true
+                    });
+                }
+
+            })
+            
         });
 
         var calendar = new Calendar(calendarEl, {

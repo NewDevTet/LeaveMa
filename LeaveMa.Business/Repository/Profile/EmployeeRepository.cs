@@ -1,4 +1,5 @@
-﻿using LeaveMa.Data.Context;
+﻿using LeaveMa.Business.Enums;
+using LeaveMa.Data.Context;
 using LeaveMa.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,12 +38,46 @@ namespace LeaveMa.Business.Repository.Profile
 
                 return employee;
         }
+
+        public async Task<Employee> GetHolidaysEmployeeId(string? userId)
+        {
+            return await _context.Employees.Where(x => x.Id == userId)
+                .Include(e => e.Country)
+                .ThenInclude(h => h.Holidays)
+                .FirstOrDefaultAsync();
+
+        }
+
         public async Task<Employee> GetLeavesByEmployeeId(string id)
         {
             return await _context.Employees.Where(x => x.Id == id)
                 .Include(e => e.Leaves)
                 .ThenInclude(e => e.Status)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<Employee> GetLeavesWithoutRejectedByEmployeeId(string id)
+        {
+            return await _context.Employees.Where(x => x.Id == id)
+                .Include(e => e.Leaves)
+                .Include(c => c.Country)
+                .ThenInclude(h => h.Holidays)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Employee>> GetTeamLeavesByEmployeeId(string userId)
+        {
+            var currentProject =  await _context.EmployeeProjects.Where(x => x.Id == userId && (bool)x.IsCurrent)
+                .FirstOrDefaultAsync();
+
+            return await _context.Employees.Where(x => x.Id != userId)
+                .Include(r => r.EmployeeProjects)
+                .Where(p => p.EmployeeProjects.Any(c => c.Code == currentProject.Code && (bool)c.IsCurrent))
+                .Include(l => l.Leaves)
+                .ToListAsync();
+
+
+
         }
     }
 }

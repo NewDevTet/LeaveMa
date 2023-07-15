@@ -15,5 +15,8 @@ namespace LeaveMa.Business.Repository.Profile
 
         Task<Employee> FindOneAsync(string id);
         Task<Employee> GetLeavesByEmployeeId(string id);
+        Task<Employee> GetLeavesWithoutRejectedByEmployeeId(string id);
+        Task<Employee> GetHolidaysEmployeeId(string? userId);
+        Task<IEnumerable<Data.Entities.Employee>> GetTeamLeavesByEmployeeId(string userId);
     }
 }

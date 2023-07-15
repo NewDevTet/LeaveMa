@@ -28,7 +28,10 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 builder.Services.AddRazorPages();
 builder.Services.TryAddTransient<IEmailSender, EmailSender>();
 

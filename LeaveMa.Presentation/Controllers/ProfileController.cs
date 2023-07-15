@@ -73,8 +73,9 @@ namespace LeaveMa.Presentation.Controllers
         public async Task<IActionResult> HomeAsync()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var employee = await _employeeRepository.GetLeavesByEmployeeId(userId);
-
+            var employee = await _employeeRepository.GetLeavesWithoutRejectedByEmployeeId(userId);
+            var teamLeaves = await _employeeRepository.GetTeamLeavesByEmployeeId(userId);
+            ViewData["TeamLeaves"] = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeModel>>(teamLeaves);
             return View(_mapper.Map<Employee, EmployeeModel>(employee));
         }
 
@@ -184,6 +185,14 @@ namespace LeaveMa.Presentation.Controllers
             return View(_mapper.Map<IEnumerable<Leave>, IEnumerable<LeaveModel>>(leaves));
         }
 
+        [HttpGet("Holidays")]
+        public async Task<IActionResult> HolidaysAsync()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = await _employeeRepository.GetHolidaysEmployeeId(userId);
+
+            return View(_mapper.Map<IEnumerable<Holiday>, IEnumerable<HolidayModel>>(employee?.Country?.Holidays));
+        }
         [HttpPost("Request")]
         public async Task<IActionResult> RequestAsync(long id)
         {

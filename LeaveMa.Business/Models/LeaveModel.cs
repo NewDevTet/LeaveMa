@@ -11,6 +11,7 @@ namespace LeaveMa.Business.Models
         public long Id { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public string? StatusCode { get; set; }
         public EmployeeModel Employee { get; set; }
         public StatusModel Status { get; set; }
     }
