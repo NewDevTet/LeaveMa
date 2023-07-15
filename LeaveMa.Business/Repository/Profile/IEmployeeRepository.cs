@@ -1,4 +1,5 @@
-﻿using LeaveMa.Data.Entities;
+﻿using LeaveMa.Business.Models;
+using LeaveMa.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,8 @@ namespace LeaveMa.Business.Repository.Profile
     {
         Task CreateEmployeeAsync(string id);
         Task<Employee> GetEmployeeByIdAsync(string id);
+
+        Task<Employee> FindOneAsync(string id);
+        Task<Employee> GetLeavesByEmployeeId(string id);
     }
 }

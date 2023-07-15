@@ -116,7 +116,7 @@ namespace LeaveMa.Presentation.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return RedirectToAction("Index","Home");
+                    return RedirectToAction("Home","Profile");
                 }
                 if (result.RequiresTwoFactor)
                 {

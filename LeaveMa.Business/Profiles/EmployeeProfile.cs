@@ -15,6 +15,7 @@ namespace LeaveMa.Business.Profiles
         public EmployeeProfile()
         {
             CreateMap<Employee, EmployeeModel>();
+            CreateMap<Employee, RegisterModel>().ReverseMap();
         }
     }
 }

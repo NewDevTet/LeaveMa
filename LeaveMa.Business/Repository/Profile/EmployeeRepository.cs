@@ -21,19 +21,28 @@ namespace LeaveMa.Business.Repository.Profile
             return Task.CompletedTask;
         }
 
+        public async Task<Employee> FindOneAsync(string id)
+        {
+            return await _context.Employees.FindAsync(id);
+        }
+
         public async Task<Employee> GetEmployeeByIdAsync(string id)
         {
             var employee = await _context.Employees
                 .Where(e => e.Id == id)
-                .Include(e => e.Leaves).FirstOrDefaultAsync();
+                .Include(e => e.EmployeeProjects)
+                .ThenInclude(e => e.Project)
+                .Include(e => e.Country)
+                .FirstOrDefaultAsync();
 
-            if (employee is not null)
-            {
                 return employee;
-            }
-
-            return new Employee();
-
+        }
+        public async Task<Employee> GetLeavesByEmployeeId(string id)
+        {
+            return await _context.Employees.Where(x => x.Id == id)
+                .Include(e => e.Leaves)
+                .ThenInclude(e => e.Status)
+                .FirstOrDefaultAsync();
         }
     }
 }

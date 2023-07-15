@@ -1,15 +1,15 @@
-﻿using LeaveMa.Business.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LeaveMa.Data.Entities
+namespace LeaveMa.Business.Models
 {
     public class RoleModel
     {
+        public string? Id { get; set; }
         public int Code { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

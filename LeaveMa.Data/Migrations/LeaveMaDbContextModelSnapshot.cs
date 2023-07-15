@@ -99,14 +99,8 @@ namespace LeaveMa.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool?>("IsCurrent")
                         .HasColumnType("bit");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserCreated")
                         .HasColumnType("nvarchar(max)");
@@ -184,6 +178,9 @@ namespace LeaveMa.Data.Migrations
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ReviewedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
@@ -543,9 +540,6 @@ namespace LeaveMa.Data.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
 
-                    b.Property<int>("Code")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
@@ -557,9 +551,6 @@ namespace LeaveMa.Data.Migrations
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmployeeId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserCreated")
@@ -600,9 +591,6 @@ namespace LeaveMa.Data.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("UserCreated")
                         .HasColumnType("nvarchar(max)");
 
@@ -610,8 +598,6 @@ namespace LeaveMa.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasIndex("CountryCode");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Employee", (string)null);
                 });
@@ -750,14 +736,7 @@ namespace LeaveMa.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LeaveMa.Data.Entities.Role", "Role")
-                        .WithMany("Employees")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.Navigation("Country");
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("LeaveMa.Data.Entities.Country", b =>
@@ -784,8 +763,6 @@ namespace LeaveMa.Data.Migrations
 
             modelBuilder.Entity("LeaveMa.Data.Entities.Role", b =>
                 {
-                    b.Navigation("Employees");
-
                     b.Navigation("RolePermissions");
                 });
 

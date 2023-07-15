@@ -1,10 +1,8 @@
-﻿using LeaveMa.Data.Entities;
-
-namespace LeaveMa.Business.Models
+﻿namespace LeaveMa.Business.Models
 {
     public class EmployeeModel
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public string Email { get; set; }
         public long Code { get; set; }

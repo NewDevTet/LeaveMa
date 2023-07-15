@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LeaveMa.Data.Entities
+namespace LeaveMa.Business.Models
 {
     public class PermissionModel
     {

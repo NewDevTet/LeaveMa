@@ -12,6 +12,8 @@ namespace LeaveMa.Data.Entities
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public string? EmployeeId { get; set; }
+
+        public string? ReviewedBy { get; set; }
         public Employee? Employee { get; set; }
         public string? StatusCode { get; set; }
         public Status? Status { get; set; }

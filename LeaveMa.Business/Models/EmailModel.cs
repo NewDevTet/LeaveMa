@@ -1,5 +1,4 @@
-﻿
-namespace LeaveMa.Data.Entities
+﻿namespace LeaveMa.Business.Models
 {
     public class EmailModel
     {
