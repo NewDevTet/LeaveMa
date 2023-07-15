@@ -167,12 +167,10 @@
             });
         });
 
-        console.log(teamLeaves)
         $.each(teamLeaves, function (index, item) {
-            console.log("1")
-            console.log(item.leaves)
+
             $.each(item.leaves, function (inde, subItem) {
-                console.log("2")
+
                 if (subItem.statusCode == "APPROVED"){
                     var endDate = new Date(subItem.endDate)
                     var endDateValue = endDate.setDate(endDate.getDate() + 1)
@@ -249,6 +247,17 @@
 
             // Remove event from text input
             $('#new-event').val('')
+
+        })
+        $(function () {
+            $('a').click(function (e) {
+                // if already any element in active status remove it
+                $('a').removeClass('active');
+                // add active status to this one only
+                $(this).addClass('active');
+                
+
+            })
         })
     })
 </script>

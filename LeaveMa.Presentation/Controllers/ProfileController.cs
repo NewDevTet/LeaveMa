@@ -219,6 +219,10 @@ namespace LeaveMa.Presentation.Controllers
             employee.Balance = balance;
 
             await _unitOfWork.CompleteAsync();
+            await _emailSender.SendEmailAsync(
+                  employee.Email,
+                  "Leave request",
+                  $"Your leave request has been updated!");
 
             return RedirectToAction("Requests");
         }
@@ -229,8 +233,14 @@ namespace LeaveMa.Presentation.Controllers
             var leave = await _leaveRepository.GetLeaveAsync(model.Id);
             leave.StatusCode = nameof(LeaveStatusCode.APPROVED);
             leave.ReviewedBy = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
             await _unitOfWork.CompleteAsync();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var lead = await _employeeRepository.FindOneAsync(userId);
+            var employee = await _employeeRepository.FindOneAsync(leave.EmployeeId);
+            await _emailSender.SendEmailAsync(
+                  employee.Email,
+                  "Leave request",
+                  $"A new leave request has been reviewed and approved by {lead.FirstName + " " + lead.LastName} soon!");
 
             return RedirectToAction("Approval");
         }
@@ -243,6 +253,13 @@ namespace LeaveMa.Presentation.Controllers
             leave.ReviewedBy = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             await _unitOfWork.CompleteAsync();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var lead = await _employeeRepository.FindOneAsync(userId);
+            var employee = await _employeeRepository.FindOneAsync(leave.EmployeeId);
+            await _emailSender.SendEmailAsync(
+                  employee.Email,
+                  "Leave request",
+                  $"A new leave request has been reviewed and rejected by {lead.FirstName + " " + lead.LastName} soon!");
 
             return RedirectToAction("Approval");
         }
@@ -261,6 +278,10 @@ namespace LeaveMa.Presentation.Controllers
 
             employee.Balance = basicBalance;
             await _unitOfWork.CompleteAsync();
+            await _emailSender.SendEmailAsync(
+                  employee.Email,
+                  "Leave request",
+                  $"Your leave request is deleted!");
             return RedirectToAction("Requests");
         }
 
@@ -280,10 +301,15 @@ namespace LeaveMa.Presentation.Controllers
 
             await _leaveRepository.CreateLeaveAsync(leave);
             var employee = await _employeeRepository.FindOneAsync(userId);
+            var teamLead = await _employeeRepository.GetTeamLeadByUserId(userId);
             var balance = employee.Balance - (endDate - startDate).TotalDays - 1;
             employee.Balance = balance;
 
             await _unitOfWork.CompleteAsync();
+            await _emailSender.SendEmailAsync(
+                   employee.Email,
+                   "Leave request",
+                   $"A new leave request has been created, it will be reviewed by {teamLead.FirstName + " " + teamLead.LastName} soon!");
 
             return RedirectToAction("Requests");
         }

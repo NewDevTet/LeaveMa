@@ -64,8 +64,8 @@
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <li class="nav-item">
-                            <a  class="nav-link" asp-controller="Profile" asp-action="Home">
+                        <li class="nav-item active">
+                            <a class="nav-link Home" asp-controller="Profile" asp-action="Home">
                                 <i class="nav-icon far fa-calendar-alt"></i>
                                 <p>
                                     Calendar
@@ -73,7 +73,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" asp-controller="Profile" asp-action="Index">
+                            <a class="nav-link MyProfile" asp-controller="Profile" asp-action="Index">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     My profile
@@ -81,7 +81,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Profile" asp-action="Requests">
+                            <a class="Requests nav-link" asp-controller="Profile" asp-action="Requests">
                                 <i class="nav-icon fas fa-edit"></i>
                                 <p>
                                     Requests
@@ -91,7 +91,7 @@
                         @if (User.IsInRole("Lead"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Profile" asp-action="Approval">
+                                <a class="Approval nav-link" asp-controller="Profile" asp-action="Approval">
                                     <i class="nav-icon fas fa-file"></i>
                                     <p>
                                         Review
@@ -100,7 +100,7 @@
                             </li>
                         }
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Profile" asp-action="Holidays">
+                            <a class="Holidays nav-link" asp-controller="Profile" asp-action="Holidays">
                                 <i class="nav-icon fas fa-tree"></i>
                                 <p>
                                     Holidays
@@ -110,7 +110,7 @@
                         @if (User.IsInRole("admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Profile" asp-action="Register">
+                                <a class="Register nav-link" asp-controller="Profile" asp-action="Register">
                                     <i class="nav-icon fas fa-file"></i>
                                     <p>
                                         Register Employee
@@ -185,6 +185,12 @@
     <script src="~/plugins/daterangepicker/daterangepicker.js"></script>
     <script>
         $(function () {
+            var page = window.location.pathname.split('/')[2];
+            if (typeof page == 'undefined')
+            {
+                page = 'MyProfile';
+            }
+            $('a.' + page).addClass('active');
         })
     </script>
 </body>

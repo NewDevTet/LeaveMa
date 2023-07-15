@@ -15,6 +15,8 @@ namespace LeaveMa.Data.Entities
         public double? Balance { get; set; }
         public string? CountryCode { get; set; }
         public Country? Country { get; set; }
+        public string? RoleId { get; set; }
+        public Role? Role { get; set; }
         public ICollection<Leave> Leaves { get; set; }
         public ICollection<EmployeeProject> EmployeeProjects { get; set; }
 

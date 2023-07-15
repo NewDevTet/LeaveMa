@@ -65,6 +65,16 @@ namespace LeaveMa.Business.Repository.Profile
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<Employee> GetTeamLeadByUserId(string userId)
+        {
+            var currentProject = await _context.EmployeeProjects.Where(x => x.Id == userId && (bool)x.IsCurrent)
+               .FirstOrDefaultAsync();
+
+            return await _context.Employees.Where(x => x.Role.Name == nameof(RolenNames.lEAD) &&
+            x.EmployeeProjects.Any(p => p.Code == currentProject.Code && (bool)p.IsCurrent))
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<Employee>> GetTeamLeavesByEmployeeId(string userId)
         {
             var currentProject =  await _context.EmployeeProjects.Where(x => x.Id == userId && (bool)x.IsCurrent)

@@ -9,6 +9,7 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public double Balance { get; set; }
+        public string? Avatar { get; set; }
         public CountryModel Country { get; set; }
         public RoleModel Role { get; set; }
         public ICollection<LeaveModel> Leaves { get; set; }

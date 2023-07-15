@@ -11,5 +11,6 @@ namespace LeaveMa.Data.Entities
     {
         public string? Description { get; set; }
         public ICollection<RolePermission> RolePermissions { get; set; }
+        public ICollection<Employee> Employees { get; set; }
     }
 }

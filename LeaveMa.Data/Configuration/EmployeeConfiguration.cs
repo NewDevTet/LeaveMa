@@ -20,6 +20,10 @@ namespace LeaveMa.Data.Configuration
             builder.HasOne<Country>(s => s.Country)
                     .WithMany(g => g.Employees)
                     .HasForeignKey(s => s.CountryCode);
+            builder.HasOne<Role>(s => s.Role)
+                   .WithMany(g => g.Employees)
+                   .OnDelete(DeleteBehavior.NoAction)
+                   .HasForeignKey(s => s.RoleId);
             builder.HasMany<Leave>(h => h.Leaves)
             .WithOne(s => s.Employee)
             .HasForeignKey(s => s.EmployeeId);
