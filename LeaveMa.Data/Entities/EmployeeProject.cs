@@ -8,7 +8,7 @@ namespace LeaveMa.Data.Entities
 {
     public class EmployeeProject : BaseEntity
     {
-        public bool? IsCurrent { get; set; }
+        public bool? IsCurren { get; set; }
         public string? Id { get; set; }
         public Employee? Employee { get; set; }
         public string? Code { get; set; }

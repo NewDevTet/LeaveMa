@@ -12,6 +12,7 @@ namespace LeaveMa.Business.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string? StatusCode { get; set; }
+        public string? ReviewedBy { get; set; }
         public EmployeeModel Employee { get; set; }
         public StatusModel Status { get; set; }
     }

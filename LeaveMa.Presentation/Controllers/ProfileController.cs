@@ -171,8 +171,21 @@ namespace LeaveMa.Presentation.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = await _employeeRepository.GetLeavesByEmployeeId(userId);
-
-            return View(_mapper.Map<Employee, EmployeeModel>(employee));
+            var emp = _mapper.Map<Employee, EmployeeModel>(employee);
+            foreach (var leave in emp.Leaves)
+            {
+                if(leave.ReviewedBy is not null && leave.ReviewedBy != "")
+                {
+                    var lead = await _employeeRepository.FindOneAsync(leave.ReviewedBy);
+                    leave.ReviewedBy = lead?.FirstName + " " + lead?.LastName;
+                }
+                else
+                {
+                    leave.ReviewedBy = "";
+                }
+                    
+            }
+            return View(emp);
         }
 
         [HttpGet("Approval")]
@@ -240,7 +253,7 @@ namespace LeaveMa.Presentation.Controllers
             await _emailSender.SendEmailAsync(
                   employee.Email,
                   "Leave request",
-                  $"A new leave request has been reviewed and approved by {lead.FirstName + " " + lead.LastName} soon!");
+                  $"Your leave request has been reviewed and approved by {lead.FirstName + " " + lead.LastName} soon!");
 
             return RedirectToAction("Approval");
         }
@@ -251,15 +264,21 @@ namespace LeaveMa.Presentation.Controllers
             var leave = await _leaveRepository.GetLeaveAsync(model.Id);
             leave.StatusCode = nameof(LeaveStatusCode.REJECTED);
             leave.ReviewedBy = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = await _employeeRepository.FindOneAsync(leave.EmployeeId);
+            var initialStartDate = leave.StartDate;
+            var initialEndDate = leave.EndDate;
+            var basicBalance = employee.Balance + (initialEndDate.Value - initialStartDate.Value).TotalDays + 1;
+
+            employee.Balance = basicBalance;
 
             await _unitOfWork.CompleteAsync();
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var lead = await _employeeRepository.FindOneAsync(userId);
-            var employee = await _employeeRepository.FindOneAsync(leave.EmployeeId);
+            
             await _emailSender.SendEmailAsync(
                   employee.Email,
                   "Leave request",
-                  $"A new leave request has been reviewed and rejected by {lead.FirstName + " " + lead.LastName} soon!");
+                  $"Your leave request has been reviewed and rejected by {lead.FirstName + " " + lead.LastName} soon!");
 
             return RedirectToAction("Approval");
         }
@@ -310,6 +329,11 @@ namespace LeaveMa.Presentation.Controllers
                    employee.Email,
                    "Leave request",
                    $"A new leave request has been created, it will be reviewed by {teamLead.FirstName + " " + teamLead.LastName} soon!");
+
+            await _emailSender.SendEmailAsync(
+                  teamLead.Email,
+                  "Leave request",
+                  $"A new leave request has been created by {employee.FirstName + " " + employee.LastName} waiting for your review! ");
 
             return RedirectToAction("Requests");
         }
